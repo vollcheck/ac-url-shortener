@@ -19,23 +19,33 @@
         <button type="submit" :disabled="!isValidURL">Shorten it</button>
       </form>
       <div v-if="shortenedURL" class="result">
-        <div class="shortened-url">
-          <span>{{ shortenedURL }}</span>
-          <button @click="copyToClipboard" class="copy-button">
-              <img class="copy-icon" :src="iconCopy"></img>
-          </button>
-        </div>
+        <span>{{ shortenedURL }}</span>
+        <button @click="copyToClipboard" class="copy-button">
+          <img class="copy-icon" :src="iconCopy"></img>
+        </button>
       </div>
     </div>
   </div>
 
   <div v-if="recentURLs.length > 0" class="recent-urls">
     <span>Last links</span>
-    <ul>
-      <li v-for="(item, index) in recentURLs" :key="index">
-        <a :href="item.short" target="_blank">{{ item.short }}</a>
-      </li>
-    </ul>
+    <div class="recent-urls-container-border">
+      <div class="recent-urls-container">
+        <ul>
+          <li v-for="(item, index) in recentURLs" :key="index" class="recent-url">
+            <div class="left">
+              <p>{{ item.original }}</p>
+              <a :href="item.short" target="_blank">{{ item.short }}</a>
+            </div>
+            <div class="right">
+              <button @click="copyToClipboard" class="copy-button">
+                <img class="copy-icon" :src="iconCopy"></img>
+              </button>
+            </div>
+          </li>
+        </ul>
+    </div>
+    </div>
   </div>
 </div>
 </template>
@@ -129,7 +139,7 @@ export default defineComponent({
   flex-direction: column;
   gap: 24px;
   width: 480px;
-  height: 462px;
+  /* height: 462px; */
   left: calc(50% - 480px / 2);
   top: calc(50% - 462px / 2);
 }
@@ -165,8 +175,6 @@ h1 {
 }
 
 label#input-filled {
-  width: 100%;
-  height: 20px;
   font-size: 12px;
   color: #4a24ac;
 }
@@ -174,6 +182,7 @@ label#input-filled {
 form input {
   width: 100%;
   padding: 4px;
+  padding-left: 0px;
   background-color: transparent;
   font-size: 16px;
   color: #333;
@@ -204,21 +213,11 @@ form button:hover {
   background-color: #553c9a;
 }
 
-.recent-urls {
-  width: 358.11px;
-  height: 20px;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 12px;
-  line-height: 17px;
-  /* or 142% */
-  display: flex;
-  align-items: center;
-  color: #363c56;
+.copy-icon {
+  cursor: pointer;
 }
 
 .result {
-  width: 100%;
   height: 56px;
   border-radius: 8px;
   background-color: #FAFAFA;
@@ -228,6 +227,8 @@ form button:hover {
   justify-content: space-between;
   align-items: center;
   color: #4a24ac;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .copy-button {
@@ -235,4 +236,62 @@ form button:hover {
   background-color: transparent;
 }
 
+.recent-urls-container-border {
+  border: 2px solid #E1E2E7;
+  border-radius: 40px;
+}
+
+.recent-urls {
+  width: 100%;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 17px;
+  color: #363c56;
+}
+
+.recent-urls span {
+  margin: 12px;
+  padding: 12px;
+  margin-bottom: 30px;
+}
+
+.recent-urls-container ul {
+  list-style-type: none;
+  padding-inline-start: 0;
+}
+
+.recent-url {
+  display: flex;
+  background: #ffffff;
+  border-radius: 16px;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 32px;
+  padding-right: 32px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  margin: 12px;
+}
+
+.recent-urls-container ul li:first-child {
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+}
+
+.recent-urls-container ul li:last-child {
+  border-bottom-left-radius: 32px;
+  border-bottom-right-radius: 32px;
+}
+
+.left p {
+  padding: 0;
+  font-size: 12px;
+  font-weight: 400;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #4A24AC;
+}
 </style>
