@@ -8,6 +8,17 @@ services:
       - ./backend:/app
     ports:
       - "8000:8000"
+    profiles:
+      - app
+
+  backend-tests:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./backend:/app
+    profiles:
+      - tests
 
   frontend:
     build:
@@ -18,3 +29,14 @@ services:
       - ./frontend:/app
     ports:
       - "5173:5173"
+    profiles:
+      - app
+
+  frontend-tests:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.test
+    volumes:
+      - ./frontend:/app
+    profiles:
+      - tests

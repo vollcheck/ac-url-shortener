@@ -1,0 +1,11 @@
+FROM python:3.12
+
+WORKDIR /app
+
+COPY . .
+
+COPY requirements-test.txt .
+RUN pip install -r requirements-test.txt
+
+
+CMD ["python", "manage.py", "test"]

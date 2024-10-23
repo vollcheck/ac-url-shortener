@@ -7,20 +7,27 @@ Aim of this project is to provide full stack platform for URL shortening. Projec
 In order to use the application, you need to run:
 
 ```sh
-docker compose up --build
+docker-compose up --build
 ```
 
 If you'd like to run database migrations feel free to type in:
 ```sh
-docker compose exec backend python manage.py migrate
+docker-compose exec backend python manage.py migrate
 ```
 
 Also creating admin account can be used in the following way:
 ```sh
-docker compose exec backend python manage.py createsuperuser
+docker-compose exec backend python manage.py createsuperuser
 ```
 
-Note: to execute command above, your containers need to be running.
+Note: to execute these two commands above, your containers need to be running.
+
+## running tests
+
+In order to run tests for both backend and frontend, please do:
+```sh
+docker-compose --profile tests up --abort-on-container-exit
+```
 
 ## other notes & further directions
 Current configuration assumes that the project will be run in a development environment.
