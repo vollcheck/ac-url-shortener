@@ -36,7 +36,6 @@ describe('URLShortener.vue', () => {
 
   describe('URLShortener', () => {
     it('should render the input and button', () => {
-      const wrapper = mount(URLShortener)
       const input = wrapper.find('#urlInput')
       const button = wrapper.find('button[type="submit"]')
 
@@ -45,7 +44,6 @@ describe('URLShortener.vue', () => {
     });
 
     it('disables the button when the URL is invalid', async () => {
-      const wrapper = mount(URLShortener)
       const input = wrapper.find('#urlInput')
       await input.setValue('invalid-url')
 
@@ -54,7 +52,6 @@ describe('URLShortener.vue', () => {
     });
 
     it('enables the button for valid URL', async () => {
-      const wrapper = mount(URLShortener)
       const input = wrapper.find('#urlInput')
       await input.setValue('https://example.com')
 
