@@ -6,7 +6,7 @@ import axios from 'axios'
 describe('URLShortener.vue', () => {
   let wrapper;
   let consoleSpy;
-  const url = "http://short.url/abc123";
+  const url = "https://short.url/abc123";
 
   beforeEach(() => {
     vi.mock('axios');
@@ -67,6 +67,31 @@ describe('URLShortener.vue', () => {
     });
   });
 
+  describe('URL Validation', () => {
+    it('validates correct URLs', async () => {
+      const input = wrapper.find('input[id="urlInput"]');
+      await input.setValue('https://example.com');
+      expect(wrapper.vm.isValidURL).toBe(true);
+    });
+
+    it('invalidates incorrect URLs', async () => {
+      const input = wrapper.find('input[id="urlInput"]');
+      await input.setValue('not-a-url');
+      expect(wrapper.vm.isValidURL).toBe(false);
+    });
+  });
+
+  describe('API Integration', () => {
+    it('calls API with correct URL on form submission', async () => {
+      const testUrl = 'https://example.com';
+      await wrapper.find('input[id="urlInput"]').setValue(testUrl);
+      await wrapper.find('button[type="submit"]').trigger('submit');
+
+      expect(axios.post).toHaveBeenCalledWith(
+        "/api/shorten/", { "url": testUrl }
+      );
+    });
+  });
 
   describe('Copy Functionality', () => {
     it('copies shortened URL to clipboard', async () => {
@@ -76,6 +101,19 @@ describe('URLShortener.vue', () => {
       await wrapper.find('.copy-button-main').trigger('click');
 
       expect(consoleSpy).toHaveBeenCalledWith("Link saved to a clipboard!");
+    });
+  });
+
+  describe('History Management', () => {
+    it('stores shortened URL in history', async () => {
+      const url = 'https://example.com';
+      const short = "https://short.url/abc123";
+      await wrapper.find('input[id="urlInput"]').setValue(url);
+      await wrapper.find('button[type="submit"]').trigger('submit');
+
+      const ls = localStorage.getItem('recentURLs') || '[]'
+      const history = JSON.parse(ls);
+      expect(history[0].short).toContain(short);
     });
   });
 });
