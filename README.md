@@ -10,6 +10,16 @@ In order to use the application, you need to run:
 docker-compose up --build
 ```
 
+or use prepared script for that:
+```sh
+./script/run-app
+```
+
+Just make sure that script is executable by saying:
+```sh
+chmod +x script/run-app
+```
+
 If you'd like to run database migrations feel free to type in:
 ```sh
 docker-compose exec backend python manage.py migrate
@@ -27,6 +37,16 @@ Note: to execute these two commands above, your containers need to be running.
 In order to run tests for both backend and frontend, please do:
 ```sh
 docker-compose --profile tests up --abort-on-container-exit
+```
+
+or use prepared script for that:
+```sh
+./script/run-tests
+```
+
+Just make sure that script is executable by saying:
+```sh
+chmod +x script/run-tests
 ```
 
 ## other notes & further directions
