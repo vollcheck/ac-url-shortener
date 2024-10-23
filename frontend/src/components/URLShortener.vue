@@ -9,8 +9,9 @@
         <h1>Short link</h1>
 
         <form @submit.prevent="shortenURL">
-          <label id="input-filled">Link to shortcut</label>
+          <label for="urlInput" id="input-filled">Link to shortcut</label>
           <input
+            id="urlInput"
             v-model="url"
             type="url"
             required
@@ -20,7 +21,7 @@
         </form>
         <div v-if="shortenedURL" class="result">
           <span>{{ shortenedURL }}</span>
-          <button @click="copyToClipboard" class="copy-button">
+          <button @click="copyToClipboard" class="copy-button copy-button-main">
             <img class="copy-icon" :src="iconCopy" />
           </button>
         </div>
@@ -85,9 +86,9 @@ export default defineComponent({
       if (!isValidURL.value) return
 
       try {
-        const response = await axios.post('/api/shorten/', { url: url.value })
-        shortenedURL.value = response.data.short_url
-        addToRecentURLs({ original: url.value, short: shortenedURL.value })
+          const response = await axios.post('/api/shorten/', { url: url.value })
+          shortenedURL.value = response.data.short_url
+          addToRecentURLs({ original: url.value, short: shortenedURL.value })
       } catch (error) {
         console.error('Error shortening URL:', error)
       }
@@ -96,7 +97,7 @@ export default defineComponent({
     const copyToClipboard = () => {
       navigator.clipboard
         .writeText(shortenedURL.value)
-        .then(() => {})
+        .then(() => console.log("Link saved to a clipboard!"))
         .catch(err => console.error('Error copying text: ', err))
     }
 
