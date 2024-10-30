@@ -27,6 +27,7 @@ services:
     command: npm run dev -- --host
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     ports:
       - "5173:5173"
     profiles:
@@ -38,5 +39,6 @@ services:
       dockerfile: Dockerfile.test
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     profiles:
       - tests
